@@ -1,2 +1,12 @@
 /gen/
 /target/
+
+.*~
+\#*#
+
+nbactions.xml
+.classpath
+.settings/
+.project
+bin/
+project.properties
