@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.android.ContextHolder;
 
+
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.database.Cursor;
@@ -30,6 +31,7 @@ public class HelloAndroidActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_options);
+        
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, data);
         
