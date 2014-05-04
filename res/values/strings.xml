@@ -3,11 +3,23 @@
 
     <string name="app_name">Degree catalog</string>
     <string name="action_settings">Settings</string>
-    <string name="degree_title_label">Название:</string>
-    <string name="first_name_label">Имя:</string>
-    <string name="second_name_label">Отчество:</string>
-    <string name="last_name_label">Фамилия:</string>
-    <string name="year_name_label">Год:</string>
-    <string name="department_name_label">Факультет:</string>
+    
+    <string name="degree_title_label">Название</string>
+    <string name="first_name_label">Имя</string>
+    <string name="second_name_label">Отчество</string>
+    <string name="last_name_label">Фамилия</string>
+    
+    <string name="select_department">Факультет</string>
+    <string name="select_facility">Кафедра</string>
+    <string name="select_speciality">Специальность</string>
+    <string name="select_year">Год</string>
+    
+    <string name="search_button_label">Поиск</string>
+    
+    <string name="author_label">Автор:</string>
+    <string name="facility_label">Факультет:</string>
+    <string name="department_label">Кафедра:</string>
+    <string name="speciality_label">Специальность:</string>
+    <string name="year_label">Год:</string>
     
 </resources>
