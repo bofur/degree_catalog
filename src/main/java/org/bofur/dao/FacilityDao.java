@@ -8,29 +8,46 @@ import android.database.sqlite.SQLiteDatabase;
 import org.bofur.bean.Facility;;
 
 public class FacilityDao {
+	private static final String TABLE_NAME = "facilities";
+	private static final String TABLE_COLUMN_ID = "id";
+	private static final String TABLE_COLUMN_NAME = "name";
+	
 	private SQLiteDatabase db;
 	
 	public FacilityDao(SQLiteDatabase db) {
 		this.db = db;
 	}
 
-	public ArrayList<Facility> all() {
-		Cursor cursor = db.query("facilities", 
+	public ArrayList<Facility> getAll() {
+		Cursor cursor = db.query(TABLE_NAME, 
 				null, null, null, null, null, null);
 		
 		ArrayList<Facility> result = new ArrayList<Facility>();
-		if (cursor.moveToFirst() == false) return result;
 		
 		while (cursor.moveToNext()) {
-			int idIndex = cursor.getColumnIndex("id");
-			int nameIndex = cursor.getColumnIndex("name");
-			
-			long id = cursor.getLong(idIndex);
-			String name = cursor.getString(nameIndex);
-			
-			result.add(new Facility(id, name));
+			result.add(createFacility(cursor));
 		}
 		
+		cursor.close();
 		return result;
+	}
+	
+	public Facility getById(long id) {
+		Cursor cursor = db.rawQuery("SELECT * FROM facilities WHERE id = " + id, null);
+		Facility facility = 
+				cursor.moveToFirst() ? createFacility(cursor) : null;
+		
+		cursor.close();
+		return facility;
+	} 
+	
+	private Facility createFacility(Cursor cursor) {
+		int idIndex = cursor.getColumnIndex(TABLE_COLUMN_ID);
+		int nameIndex = cursor.getColumnIndex(TABLE_COLUMN_NAME);
+		
+		long id = cursor.getLong(idIndex);
+		String name = cursor.getString(nameIndex);
+		
+		return new Facility(id, name);
 	}
 }

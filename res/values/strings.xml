@@ -22,4 +22,6 @@
     <string name="speciality_label">Специальность:</string>
     <string name="year_label">Год:</string>
     
+    <string name="select_facility_prompt">Выберите факультет</string>
+    
 </resources>

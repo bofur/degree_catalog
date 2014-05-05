@@ -1,15 +1,19 @@
 package org.bofur.dao;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DaoFactory {
-	private static final String DB_NAME = "db";
 	
 	private static SQLiteDatabase db;
+	private static FacilityDao facilityDao;
 	
-	private static void setDataBase(SQLiteDatabase dataBase) {
+	public static void setDataBase(SQLiteDatabase dataBase) {
 		db = dataBase;
+	}
+	
+	public static FacilityDao getFacilityDao() {
+		if (facilityDao != null) return facilityDao;
+		return facilityDao = new FacilityDao(db);
 	}
 	
 	private  DaoFactory() {}

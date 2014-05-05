@@ -2,6 +2,7 @@ package org.bofur;
 
 import java.util.ArrayList;
 
+import org.bofur.adapter.ArrayListAdapter;
 import org.bofur.adapter.SearchResultAdapter;
 import org.bofur.bean.Degree;
 import org.bofur.bean.Department;
@@ -19,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class ResultActivity extends Activity implements OnItemClickListener {
-	private SearchResultAdapter adapter;
+	private ArrayListAdapter adapter;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {

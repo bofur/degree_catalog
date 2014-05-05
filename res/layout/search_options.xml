@@ -47,14 +47,16 @@
             android:id="@+id/facility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/select_facility" 
+            android:text="@string/select_facility"
+            android:onClick="selectFacility" 
             style="?android:attr/spinnerStyle" />
         
         <Button
             android:id="@+id/department"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/select_department" 
+            android:text="@string/select_department"
+            android:enabled="false" 
             style="?android:attr/spinnerStyle" />
 
         <Button
@@ -62,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/select_speciality" 
+            android:enabled="false" 
             style="?android:attr/spinnerStyle" />
         
         <Button
