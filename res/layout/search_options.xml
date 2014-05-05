@@ -56,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/select_department"
+            android:onClick="selectDepartment" 
             android:enabled="false" 
             style="?android:attr/spinnerStyle" />
 
@@ -64,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/select_speciality" 
+            android:onClick="selectSpeciality" 
             android:enabled="false" 
             style="?android:attr/spinnerStyle" />
         

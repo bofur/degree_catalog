@@ -3,10 +3,16 @@ package org.bofur;
 
 import java.util.ArrayList;
 
+import org.bofur.adapter.DepartmentAdapter;
 import org.bofur.adapter.FacilityAdapter;
+import org.bofur.adapter.SpecialityAdapter;
+import org.bofur.bean.Department;
 import org.bofur.bean.Facility;
+import org.bofur.bean.Speciality;
 import org.bofur.dao.DaoFactory;
+import org.bofur.dao.DepartmentDao;
 import org.bofur.dao.FacilityDao;
+import org.bofur.dao.SpecialityDao;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.android.ContextHolder;
 
@@ -22,7 +28,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
@@ -32,6 +37,8 @@ public class SearchActivity extends Activity {
 	private SQLiteDatabase db;
 	
 	private Facility facility;
+	private Department department;
+	private Speciality speciality;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,12 +70,11 @@ public class SearchActivity extends Activity {
 	}
     
     public void selectFacility(View view) {
-    	AlertDialog.Builder facilitiesDialog = new AlertDialog.Builder(this);
-    	facilitiesDialog.setTitle(R.string.select_facility_prompt);
+    	AlertDialog.Builder departmentDialog = new AlertDialog.Builder(this);
+    	departmentDialog.setTitle(R.string.select_facility_prompt);
 
         FacilityDao facilityDao = DaoFactory.getFacilityDao();
-    	ArrayList<Facility> facilities = facilityDao.all(); 
-    	Log.i("LOGS", "" + facilities.size());
+    	ArrayList<Facility> facilities = facilityDao.getAll(); 
     	final FacilityAdapter adapter = new FacilityAdapter(this, facilities);
     	OnClickListener onClickListener = new OnClickListener() {
 			
@@ -76,12 +82,55 @@ public class SearchActivity extends Activity {
 				facility = (Facility)adapter.getItem(which);
 				Button facilityBtn = (Button) findViewById(R.id.facility);
 				facilityBtn.setText(facility.getName());
+				Button departmentBtn = (Button)findViewById(R.id.department);
+				departmentBtn.setEnabled(true);
+			}
+		};
+    	
+    	departmentDialog.setAdapter((ListAdapter)adapter, onClickListener);
+    	departmentDialog.show();
+    }
+    
+    public void selectDepartment(View view) {
+    	AlertDialog.Builder facilitiesDialog = new AlertDialog.Builder(this);
+    	facilitiesDialog.setTitle(R.string.select_department_prompt);
+
+        DepartmentDao departmentDao = DaoFactory.getDepartmentDao();
+    	ArrayList<Department> departments = departmentDao.getByFacility(facility); 
+    	final DepartmentAdapter adapter = new DepartmentAdapter(this, departments);
+    	OnClickListener onClickListener = new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				department = (Department)adapter.getItem(which);
+				Button departmentBtn = (Button) findViewById(R.id.department);
+				departmentBtn.setText(department.getName());
+				Button specialityBtn = (Button)findViewById(R.id.speciality);
+				specialityBtn.setEnabled(true);
 			}
 		};
     	
     	facilitiesDialog.setAdapter((ListAdapter)adapter, onClickListener);
-    	
     	facilitiesDialog.show();
+    }
+    
+    public void selectSpeciality(View view) {
+    	AlertDialog.Builder specialitiesDialog = new AlertDialog.Builder(this);
+    	specialitiesDialog.setTitle(R.string.select_speciality_prompt);
+
+        SpecialityDao specialityDao = DaoFactory.getSpecialityDao();
+    	ArrayList<Speciality> specialities = specialityDao.getByDepartment(department);
+    	final SpecialityAdapter adapter = new SpecialityAdapter(this, specialities);
+    	OnClickListener onClickListener = new OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				speciality = (Speciality)adapter.getItem(which);
+				Button specialityBtn = (Button) findViewById(R.id.speciality);
+				specialityBtn.setText(speciality.getName());
+			}
+		};
+    	
+    	specialitiesDialog.setAdapter((ListAdapter)adapter, onClickListener);
+    	specialitiesDialog.show();
     }
     
     @Override
