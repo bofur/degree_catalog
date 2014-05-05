@@ -43,14 +43,39 @@
             android:hint="@string/second_name_label"
             android:inputType="text" />
 
-        <Spinner
+        <Button
             android:id="@+id/facility"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Spinner
+            android:layout_height="wrap_content"
+            android:text="@string/select_facility" 
+            style="?android:attr/spinnerStyle" />
+        
+        <Button
             android:id="@+id/department"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/select_department" 
+            style="?android:attr/spinnerStyle" />
 
+        <Button
+            android:id="@+id/speciality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_speciality" 
+            style="?android:attr/spinnerStyle" />
+        
+        <Button
+            android:id="@+id/year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_year" 
+            style="?android:attr/spinnerStyle" />
+        
+        <Button
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_button_label"
+            android:onClick="search" />
+        
 </LinearLayout>
