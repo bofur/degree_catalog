@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchActivity" >
+        <activity android:name=".SearchActivity" android:label="Поиск">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,6 +23,11 @@
         </activity>
         <activity android:label="Результат поиска" android:name="ResultActivity"></activity>
         <activity android:label="Диплом" android:name="DegreeActivity"></activity>
+        <activity android:label="Факультеты" android:name="FacilitiesActivity"></activity>
+        <activity android:label="Кафедры" android:name="DepartmentsActivity"></activity>
+        <activity android:label="Специальности" android:name="SpecialitiesActivity"></activity>
+        <activity android:label="Студенты" android:name="StudentsActivity"></activity>
+        <activity android:label="Работы" android:name="DegreesActivity"></activity>
     </application>
 
 </manifest>

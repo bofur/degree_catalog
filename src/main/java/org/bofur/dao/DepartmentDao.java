@@ -39,7 +39,8 @@ public class DepartmentDao {
 	
 	public ArrayList<Department> getByFacility(Facility facility) {
 		ArrayList<Department> result = new ArrayList<Department>();
-		Cursor cursor = db.rawQuery("SELECT * FROM departments WHERE facility_id = " + facility.getId(), null);
+		Cursor cursor = db.rawQuery(
+				"SELECT * FROM departments WHERE facility_id = " + facility.getId(), null);
 		
 		while (cursor.moveToNext()) {
 			Department department = createDepartment(cursor);
@@ -52,11 +53,9 @@ public class DepartmentDao {
 	
 	public Department getById(long id) {
 		Cursor cursor = db.rawQuery("SELECT * FROM departments WHERE id = " + id, null);
-		Department department = cursor.moveToFirst() ? 
-				new Department(id, null, getName(cursor)) : null;
-				
-		if (department == null) return null;		
-				
+		if (cursor.moveToFirst() == false) return null; 
+		
+		Department department = new Department(id, null, getName(cursor));
 		Facility facility = 
 				DaoFactory.getFacilityDao().getById(getFacilityId(cursor));
 		department.setFacility(facility);

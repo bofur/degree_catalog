@@ -25,8 +25,10 @@ public class SearchResultAdapter extends ArrayListAdapter<Degree> {
 		Degree degree = (Degree) objects.get(position);
 		convertView = lInflater.inflate(LAYOUT_ID, parent, false);
 		
+		Student student = degree.getStudent();
+		getView(convertView, R.id.author).setText(student.getName());
+		
 		getView(convertView, R.id.title).setText(degree.getName());
-		getView(convertView, R.id.author).setText(getAuthor(degree.getStudent()));
 		getView(convertView, R.id.year).setText(degree.getYear() + "");
 		
 		return convertView;
@@ -36,10 +38,4 @@ public class SearchResultAdapter extends ArrayListAdapter<Degree> {
 		return (TextView)view.findViewById(id);
 	}
 
-	private String getAuthor(Student student) {
-	    String author = student.getLastName() + " ";
-	    author += student.getFirstName().substring(0, 1) + ".";
-	    author += student.getSecondName().substring(0, 1) + ".";
-	    return author;
-	}
 }

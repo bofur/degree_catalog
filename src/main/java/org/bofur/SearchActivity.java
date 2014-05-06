@@ -1,17 +1,13 @@
 package org.bofur;
 
-
 import java.util.ArrayList;
 
 import org.bofur.adapter.ArrayListAdapter;
 import org.bofur.bean.Department;
-import org.bofur.bean.Facility;
 import org.bofur.bean.Indexed;
 import org.bofur.bean.Speciality;
 import org.bofur.dao.DaoFactory;
-import org.bofur.dao.DepartmentDao;
 import org.bofur.dao.FacilityDao;
-import org.bofur.dao.SpecialityDao;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.android.ContextHolder;
 
@@ -26,15 +22,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 
 public class SearchActivity extends Activity {
 	private static final String DATABASE_NAME = "db"; 
 	
-	private SQLiteDatabase db;
-
 	private SearchActivityModerator moderator;
+	private SQLiteDatabase db;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,9 +36,8 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.search_options);
 
         db = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
-        upgradeDataBase(db);
-        
         DaoFactory.setDataBase(db);
+        upgradeDataBase(db);
 
         moderator = new SearchActivityModerator(
         		(Button)findViewById(R.id.facility), 
@@ -54,52 +47,63 @@ public class SearchActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(org.bofur.R.menu.main, menu);
 		return true;
     }
     
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	// TODO Auto-generated method stub
-    	return super.onOptionsItemSelected(item);
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	switch (item.getItemId()) {
+    	case R.id.facilities_settings:
+    		startActivity(new Intent(this, FacilitiesActivity.class));
+    		break;
+    	case R.id.departments_settings:
+    		startActivity(new Intent(this, DepartmentsActivity.class));
+    		break;
+    	case R.id.specialities_settings:
+    		startActivity(new Intent(this, SpecialitiesActivity.class));
+    		break;
+    	case R.id.students_settings:
+    		startActivity(new Intent(this, StudentsActivity.class));
+    		break;
+    	case R.id.degrees_settings:
+    		startActivity(new Intent(this, DegreesActivity.class));
+    		break;
+    	}
+    	
+    	return super.onMenuItemSelected(featureId, item);
     }
     
     public void search(View view) {
-    	Intent searchResult = new Intent(this, ResultActivity.class);
-    	startActivity(searchResult);
+    	startActivity(new Intent(this, ResultActivity.class));
 	}
     
     public void selectFacility(View view) {
         FacilityDao facilityDao = DaoFactory.getFacilityDao();
-    	ArrayList<Facility> facilities = facilityDao.getAll(); 
-    	showListDialog(R.string.select_facility_prompt, facilities);
+    	showListDialog(R.string.select_facility_prompt, facilityDao.getAll());
     }
     
     public void selectDepartment(View view) {
-        DepartmentDao departmentDao = DaoFactory.getDepartmentDao();
-    	ArrayList<Department> departments = departmentDao.getByFacility(moderator.getFacility());
+    	ArrayList<Department> departments = 
+    			DaoFactory.getDepartmentDao().getByFacility(moderator.getFacility());
     	showListDialog(R.string.select_department_prompt, departments);
     }
     
     public void selectSpeciality(View view) {
-        SpecialityDao specialityDao = DaoFactory.getSpecialityDao();
-    	ArrayList<Speciality> specialities = specialityDao.getByDepartment(moderator.getDepartment());
+    	ArrayList<Speciality> specialities = 
+    			DaoFactory.getSpecialityDao().getByDepartment(moderator.getDepartment());
     	showListDialog(R.string.select_speciality_prompt, specialities);
     }
     
     private <T extends Indexed> void  showListDialog(int titleId,  ArrayList<T> items) {
-    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-    	dialog.setTitle(titleId);
-    	
     	final ArrayListAdapter<T> adapter = new ArrayListAdapter<T>(this, items);
-    	dialog.setAdapter(
-    			adapter, new OnClickListener() {
+    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    	dialog.setAdapter(adapter, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				moderator.set(adapter.getTypedItem(which));
 			}
 		});
-    	
+    	dialog.setTitle(titleId);
     	dialog.show();
     }
     
@@ -107,7 +111,6 @@ public class SearchActivity extends Activity {
     	ContextHolder.setContext(this);
         Flyway flyway = new Flyway();
         flyway.setDataSource("jdbc:sqlite:" + db.getPath(), "", "");
-        
         flyway.migrate();
     }
     
@@ -117,4 +120,3 @@ public class SearchActivity extends Activity {
     	db.close();
     }
 }
-

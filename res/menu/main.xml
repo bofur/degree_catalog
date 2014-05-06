@@ -1,9 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+    <group android:id="@+id/infrastructure_group">
+	    <item
+	        android:id="@+id/facilities_settings"
+	        android:orderInCategory="100"
+	        android:showAsAction="never"
+	        android:title="@string/facilities_settings"
+	        />
+	    <item android:id="@+id/departments_settings" android:title="@string/departments_settings"></item>
+	    <item android:id="@+id/specialities_settings" android:title="@string/specialities_settings"></item>
+    </group>
+    
+    <item android:id="@+id/students_settings" android:title="@string/students_settings"></item>
+    <item android:id="@+id/degrees_settings" android:title="@string/degrees_settings"></item>
+    
 
 </menu>

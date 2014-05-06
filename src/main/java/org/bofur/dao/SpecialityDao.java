@@ -39,11 +39,13 @@ public class SpecialityDao {
 	}
 	
 	public ArrayList<Speciality> getByDepartment(Department department) {
-		ArrayList<Speciality> result = new ArrayList<Speciality>();
-		Cursor cursor = 
-				db.rawQuery("SELECT * FROM specialities WHERE department_id = " + 
-							department.getId(), null);
+		String query = 
+				"  SELECT * "
+				+ "FROM specialities "
+				+ "WHERE department_id = " + department.getId();
 		
+		Cursor cursor = db.rawQuery(query, null); 
+		ArrayList<Speciality> result = new ArrayList<Speciality>();
 		while (cursor.moveToNext()) {
 			Speciality speciality = createSpeciality(cursor);
 			speciality.setDepartment(department);

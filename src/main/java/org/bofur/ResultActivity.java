@@ -20,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class ResultActivity extends Activity implements OnItemClickListener {
-	private ArrayListAdapter adapter;
+	private ArrayListAdapter<Degree> adapter;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,12 +43,9 @@ public class ResultActivity extends Activity implements OnItemClickListener {
         searchResult.setOnItemClickListener(this);
     }
 
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Intent intent = new Intent(this, DegreeActivity.class);
 		intent.putExtra("degree", (Parcelable)adapter.getItem(position));
 		startActivity(intent);
 	}
-    
-    
 }
