@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.bofur.bean.Department;
 import org.bofur.bean.Speciality;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class SpecialityDao {
 	private static final String TABLE_NAME = "specialities";
@@ -53,6 +53,25 @@ public class SpecialityDao {
 		}
 		
 		return result;
+	}
+	
+	public Speciality insert(String name, Department department) {
+		ContentValues values = new ContentValues();
+		values.put(TABLE_COLUMN_NAME, name);
+		values.put(TABLE_COLUMN_DEPARTMENT_ID, department.getId());
+		long id = db.insert(TABLE_NAME, null, values);
+		
+		return new Speciality(id, department, name);
+	}
+	
+	public void update(Speciality speciality) {
+		db.execSQL("UPDATE specialities SET name = '" + speciality.getName() + 
+				"', department_id = " + speciality.getDepartment().getId() + 
+				" WHERE id = " + speciality.getId());
+	}
+	
+	public void remove(Speciality speciality) {
+		db.execSQL("DELETE FROM specialities WHERE id = " + speciality.getId());
 	}
 	
 	private Speciality createSpeciality(Cursor cursor) {

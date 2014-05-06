@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bofur.bean.Department;
 import org.bofur.bean.Facility;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -60,6 +61,25 @@ public class DepartmentDao {
 				DaoFactory.getFacilityDao().getById(getFacilityId(cursor));
 		department.setFacility(facility);
 		return department;
+	}
+	
+	public Department insert(String name, Facility facility) {
+		ContentValues values = new ContentValues();
+		values.put(TABLE_COLUMN_NAME, name);
+		values.put(TABLE_COLUMN_FACILITY_ID, facility.getId());
+		long id = db.insert(TABLE_NAME, null, values);
+		
+		return new Department(id, facility, name);
+	}
+	
+	public void update (Department department) {
+		db.execSQL("UPDATE departments SET name = '" + department.getName() + 
+				"', facility_id = " + department.getFacility().getId() + 
+				" WHERE id = " + department.getId());
+	}
+	
+	public void remove (Department department) {
+		db.execSQL("DELETE FROM departments WHERE id = " + department.getId());
 	}
 	
 	private Department createDepartment(Cursor cursor) {

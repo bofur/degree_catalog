@@ -52,7 +52,6 @@ public class FacilitiesActivity extends Activity implements OnItemClickListener 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		// TODO Auto-generated method stub
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, 0, 0, R.string.remove_button);
 	}
