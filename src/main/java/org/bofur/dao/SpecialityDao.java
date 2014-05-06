@@ -32,11 +32,9 @@ public class SpecialityDao {
 			Department department = 
 					DaoFactory.getDepartmentDao().getById(getDepartmentId(cursor));
 			speciality.setDepartment(department);
-			Log.i("LOGS", "create speciality with id " + speciality.getId());
 			result.add(speciality);
 		}
 
-		cursor.close();
 		return result;
 	}
 	
@@ -46,16 +44,12 @@ public class SpecialityDao {
 				db.rawQuery("SELECT * FROM specialities WHERE department_id = " + 
 							department.getId(), null);
 		
-		Log.i("LOGS", "Query: " + "SELECT * FROM specialities WHERE department_id = " + 
-							department.getId());
-		
 		while (cursor.moveToNext()) {
 			Speciality speciality = createSpeciality(cursor);
 			speciality.setDepartment(department);
 			result.add(speciality);
 		}
 		
-		cursor.close();
 		return result;
 	}
 	

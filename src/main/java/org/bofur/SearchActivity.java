@@ -3,11 +3,10 @@ package org.bofur;
 
 import java.util.ArrayList;
 
-import org.bofur.adapter.DepartmentAdapter;
-import org.bofur.adapter.FacilityAdapter;
-import org.bofur.adapter.SpecialityAdapter;
+import org.bofur.adapter.ArrayListAdapter;
 import org.bofur.bean.Department;
 import org.bofur.bean.Facility;
+import org.bofur.bean.Indexed;
 import org.bofur.bean.Speciality;
 import org.bofur.dao.DaoFactory;
 import org.bofur.dao.DepartmentDao;
@@ -24,21 +23,18 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 
 public class SearchActivity extends Activity {
 	private static final String DATABASE_NAME = "db"; 
 	
 	private SQLiteDatabase db;
-	
-	private Facility facility;
-	private Department department;
-	private Speciality speciality;
+
+	private SearchActivityModerator moderator;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +45,11 @@ public class SearchActivity extends Activity {
         upgradeDataBase(db);
         
         DaoFactory.setDataBase(db);
+
+        moderator = new SearchActivityModerator(
+        		(Button)findViewById(R.id.facility), 
+        		(Button)findViewById(R.id.department), 
+        		(Button)findViewById(R.id.speciality));
     }
 
     @Override
@@ -70,82 +71,50 @@ public class SearchActivity extends Activity {
 	}
     
     public void selectFacility(View view) {
-    	AlertDialog.Builder departmentDialog = new AlertDialog.Builder(this);
-    	departmentDialog.setTitle(R.string.select_facility_prompt);
-
         FacilityDao facilityDao = DaoFactory.getFacilityDao();
     	ArrayList<Facility> facilities = facilityDao.getAll(); 
-    	final FacilityAdapter adapter = new FacilityAdapter(this, facilities);
-    	OnClickListener onClickListener = new OnClickListener() {
-			
-			public void onClick(DialogInterface dialog, int which) {
-				facility = (Facility)adapter.getItem(which);
-				Button facilityBtn = (Button) findViewById(R.id.facility);
-				facilityBtn.setText(facility.getName());
-				Button departmentBtn = (Button)findViewById(R.id.department);
-				departmentBtn.setEnabled(true);
-			}
-		};
-    	
-    	departmentDialog.setAdapter((ListAdapter)adapter, onClickListener);
-    	departmentDialog.show();
+    	showListDialog(R.string.select_facility_prompt, facilities);
     }
     
     public void selectDepartment(View view) {
-    	AlertDialog.Builder facilitiesDialog = new AlertDialog.Builder(this);
-    	facilitiesDialog.setTitle(R.string.select_department_prompt);
-
         DepartmentDao departmentDao = DaoFactory.getDepartmentDao();
-    	ArrayList<Department> departments = departmentDao.getByFacility(facility); 
-    	final DepartmentAdapter adapter = new DepartmentAdapter(this, departments);
-    	OnClickListener onClickListener = new OnClickListener() {
-			
-			public void onClick(DialogInterface dialog, int which) {
-				department = (Department)adapter.getItem(which);
-				Button departmentBtn = (Button) findViewById(R.id.department);
-				departmentBtn.setText(department.getName());
-				Button specialityBtn = (Button)findViewById(R.id.speciality);
-				specialityBtn.setEnabled(true);
-			}
-		};
-    	
-    	facilitiesDialog.setAdapter((ListAdapter)adapter, onClickListener);
-    	facilitiesDialog.show();
+    	ArrayList<Department> departments = departmentDao.getByFacility(moderator.getFacility());
+    	showListDialog(R.string.select_department_prompt, departments);
     }
     
     public void selectSpeciality(View view) {
-    	AlertDialog.Builder specialitiesDialog = new AlertDialog.Builder(this);
-    	specialitiesDialog.setTitle(R.string.select_speciality_prompt);
-
         SpecialityDao specialityDao = DaoFactory.getSpecialityDao();
-    	ArrayList<Speciality> specialities = specialityDao.getByDepartment(department);
-    	final SpecialityAdapter adapter = new SpecialityAdapter(this, specialities);
-    	OnClickListener onClickListener = new OnClickListener() {
-			
-			public void onClick(DialogInterface dialog, int which) {
-				speciality = (Speciality)adapter.getItem(which);
-				Button specialityBtn = (Button) findViewById(R.id.speciality);
-				specialityBtn.setText(speciality.getName());
-			}
-		};
+    	ArrayList<Speciality> specialities = specialityDao.getByDepartment(moderator.getDepartment());
+    	showListDialog(R.string.select_speciality_prompt, specialities);
+    }
+    
+    private <T extends Indexed> void  showListDialog(int titleId,  ArrayList<T> items) {
+    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    	dialog.setTitle(titleId);
     	
-    	specialitiesDialog.setAdapter((ListAdapter)adapter, onClickListener);
-    	specialitiesDialog.show();
+    	final ArrayListAdapter<T> adapter = new ArrayListAdapter<T>(this, items);
+    	dialog.setAdapter(
+    			adapter, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				moderator.set(adapter.getTypedItem(which));
+			}
+		});
+    	
+    	dialog.show();
+    }
+    
+    private void upgradeDataBase(SQLiteDatabase db) {
+    	ContextHolder.setContext(this);
+        Flyway flyway = new Flyway();
+        flyway.setDataSource("jdbc:sqlite:" + db.getPath(), "", "");
+        
+        flyway.migrate();
     }
     
     @Override
     protected void onDestroy() {
     	super.onDestroy();
     	db.close();
-    }
-    
-    private void upgradeDataBase(SQLiteDatabase db) {
-    	ContextHolder.setContext(this);
-        Flyway flyway = new Flyway();
-        Log.i("TAGS", db.getPath());
-        flyway.setDataSource("jdbc:sqlite:" + db.getPath(), "", "");
-        
-        flyway.migrate();
     }
 }
 

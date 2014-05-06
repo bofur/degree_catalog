@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 public class Degree implements Parcelable, Indexed {
 	private long id;
-	private String title;
+	private String name;
 	private Student student;
 	private int year;
 	
-	public Degree(long id, String title, Student student, int year) {
+	public Degree(long id, String name, Student student, int year) {
 		this.setId(id);
-		this.setTitle(title);
+		this.setName(name);
 		this.setStudent(student);
 		this.setYear(year);
 	}
@@ -24,12 +24,12 @@ public class Degree implements Parcelable, Indexed {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String title) {
+		this.name = title;
 	}
 
 	public int getYear() {
@@ -50,7 +50,7 @@ public class Degree implements Parcelable, Indexed {
 
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeLong(id);
-		dest.writeString(title);
+		dest.writeString(name);
 		dest.writeParcelable(student, flags);
 		dest.writeInt(year);
 		
@@ -69,7 +69,7 @@ public class Degree implements Parcelable, Indexed {
 	
     private Degree(Parcel in) {
     	id = in.readLong();
-    	title = in.readString();
+    	name = in.readString();
     	student = in.readParcelable(Student.class.getClassLoader());
     	year = in.readInt();
     }

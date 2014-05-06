@@ -34,7 +34,6 @@ public class DepartmentDao {
 			result.add(department);
 		}
 
-		cursor.close();
 		return result;
 	}
 	
@@ -48,7 +47,6 @@ public class DepartmentDao {
 			result.add(department);
 		}
 		
-		cursor.close();
 		return result;
 	}
 	
@@ -56,7 +54,6 @@ public class DepartmentDao {
 		Cursor cursor = db.rawQuery("SELECT * FROM departments WHERE id = " + id, null);
 		Department department = cursor.moveToFirst() ? 
 				new Department(id, null, getName(cursor)) : null;
-		cursor.close();		
 				
 		if (department == null) return null;		
 				

@@ -22,14 +22,11 @@ public class DegreeActivity extends Activity {
         Intent intent = getIntent();
         Degree degree = (Degree)intent.getParcelableExtra("degree");
         
-        ((TextView)findViewById(R.id.title)).setText(degree.getTitle());
+        ((TextView)findViewById(R.id.title)).setText(degree.getName());
         ((TextView)findViewById(R.id.year)).setText(degree.getYear() + "");
         
         Student student = degree.getStudent();
-        String author =	student.getLastName() + " " + 
-        				student.getFirstName() + " " + 
-    					student.getSecondName();
-        ((TextView)findViewById(R.id.author)).setText(author);
+        ((TextView)findViewById(R.id.author)).setText(student.getName());
         
         Speciality speciality = student.getSpeciality();
         ((TextView)findViewById(R.id.speciality)).setText(speciality.getName());

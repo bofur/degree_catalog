@@ -28,7 +28,6 @@ public class FacilityDao {
 			result.add(createFacility(cursor));
 		}
 		
-		cursor.close();
 		return result;
 	}
 	
@@ -37,7 +36,6 @@ public class FacilityDao {
 		Facility facility = 
 				cursor.moveToFirst() ? createFacility(cursor) : null;
 		
-		cursor.close();
 		return facility;
 	} 
 	

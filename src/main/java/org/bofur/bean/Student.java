@@ -92,4 +92,8 @@ public class Student implements Parcelable, Indexed {
 		secondName = in.readString();
 		lastName = in.readString();
 	}
+
+	public String getName() {
+		return lastName + " " + firstName + " " + secondName;
+	}
 }
