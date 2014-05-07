@@ -13,17 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SearchResultAdapter extends ArrayListAdapter<Degree> {
-	protected static final int LAYOUT_ID = R.layout.search_result_item;
 	
 	public SearchResultAdapter(Context context, ArrayList<? extends Indexed> objects) {
-		super(context, objects);
+		super(context, android.R.layout.select_dialog_item, objects);
 	}
 	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView != null) return convertView;
 		
 		Degree degree = (Degree) objects.get(position);
-		convertView = lInflater.inflate(LAYOUT_ID, parent, false);
+		convertView = lInflater.inflate(layoutId, parent, false);
 		
 		Student student = degree.getStudent();
 		getView(convertView, R.id.author).setText(student.getName());

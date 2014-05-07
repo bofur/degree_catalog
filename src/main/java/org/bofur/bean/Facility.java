@@ -7,6 +7,10 @@ public class Facility implements Parcelable, Indexed{
 	private long id;
 	private String name;
 	
+	public Facility(String name) {
+		this(0, name);
+	}
+	
 	public Facility(long id, String name) {
 		this.id = id;
 		this.name = name;

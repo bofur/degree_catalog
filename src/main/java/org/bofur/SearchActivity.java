@@ -96,7 +96,9 @@ public class SearchActivity extends Activity {
     }
     
     private <T extends Indexed> void  showListDialog(int titleId,  ArrayList<T> items) {
-    	final ArrayListAdapter<T> adapter = new ArrayListAdapter<T>(this, items);
+    	final ArrayListAdapter<T> adapter = 
+    			new ArrayListAdapter<T>(this, android.R.layout.select_dialog_item, items);
+    	
     	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
     	dialog.setAdapter(adapter, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {

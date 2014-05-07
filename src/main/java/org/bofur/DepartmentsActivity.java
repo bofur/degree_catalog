@@ -33,11 +33,9 @@ public class DepartmentsActivity extends Activity implements OnItemClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entities_list);
 		
-		final OnCreateContextMenuListener listener = this;
 		ArrayList<Department> departments = DaoFactory.getDepartmentDao().getAll();
-		adapter = new ArrayListAdapter<Department>(this, departments) {
-			protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-		};
+		adapter = new ArrayListAdapter<Department>(this, 
+				android.R.layout.simple_list_item_1, departments);
 		
 		entities = (ListView)findViewById(R.id.entities);
 		entities.setAdapter(adapter);
@@ -57,9 +55,8 @@ public class DepartmentsActivity extends Activity implements OnItemClickListener
         Department department = (Department) adapter.getItem(info.position);
         DaoFactory.getDepartmentDao().remove(department);
         
-		adapter = new ArrayListAdapter<Department>(this, DaoFactory.getFacilityDao().getAll()) {
-			protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-		};
+		adapter = new ArrayListAdapter<Department>(this, 
+				android.R.layout.simple_list_item_1, DaoFactory.getFacilityDao().getAll());
 		entities.setAdapter(adapter);
         
         return super.onContextItemSelected(item);
@@ -78,19 +75,14 @@ public class DepartmentsActivity extends Activity implements OnItemClickListener
 		dialog.setPositiveButton(R.string.ok_button, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				department.setName(departmentName.getText().toString());
-				DaoFactory.getFacilityDao().update(department);
-				adapter = new ArrayListAdapter<Department>(context, DaoFactory.getDepartmentDao().getAll()) {
-					protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-				};
+//				DaoFactory.getFacilityDao().update(department);
+				adapter = new ArrayListAdapter<Department>(context, 
+						android.R.layout.simple_list_item_1, DaoFactory.getDepartmentDao().getAll());
 				entities.setAdapter(adapter);
 			}
 		});
 		
-		dialog.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
+		dialog.setNegativeButton(R.string.cancel_button, null);
 		
 		dialog.setView(departmentName);
 		dialog.show();
@@ -104,10 +96,9 @@ public class DepartmentsActivity extends Activity implements OnItemClickListener
 		dialog.setTitle(R.string.edit_prompt);
 		dialog.setPositiveButton(R.string.ok_button, new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				DaoFactory.getDepartmentDao().insert(departmentName.getText().toString());
-				adapter = new ArrayListAdapter<Department>(context, DaoFactory.getDepartmentDao().getAll()) {
-					protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-				};
+//				DaoFactory.getDepartmentDao().insert(departmentName.getText().toString());
+				adapter = new ArrayListAdapter<Department>(context, 
+						android.R.layout.simple_list_item_1, DaoFactory.getDepartmentDao().getAll());
 				entities.setAdapter(adapter);
 			}
 		});

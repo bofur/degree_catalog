@@ -40,11 +40,11 @@ public class FacilityDao {
 				facility.getName() + "' WHERE id = " + facility.getId());
 	}
 	
-	public Facility insert(String name) {
+	public Facility save(Facility facility) {
 		ContentValues values = new ContentValues();
-		values.put(TABLE_COLUMN_NAME, name);
-		long id = db.insert(TABLE_NAME, null, values);
-		return new Facility(id, name); 
+		values.put(TABLE_COLUMN_NAME, facility.getName());
+		facility.setId(db.insert(TABLE_NAME, null, values));
+		return facility; 
 	}
 	
 	public void remove(Facility facility) {

@@ -8,43 +8,43 @@ import org.bofur.dao.DaoFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.media.audiofx.AudioEffect.OnControlStatusChangeListener;
+//import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 public class FacilitiesActivity extends Activity implements OnItemClickListener {
 	
 	private ArrayListAdapter<Facility> adapter;
-	private ListView entities;
+	private ArrayList<Facility> facilities;
+	
+	EditText facilityName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.entities_list);
 		
-		final OnCreateContextMenuListener listener = this;
-		ArrayList<Facility> facilities = DaoFactory.getFacilityDao().getAll();
-		adapter = new ArrayListAdapter<Facility>(this, facilities) {
-			protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-		};
+		facilities = DaoFactory.getFacilityDao().getAll();
+		adapter = new ArrayListAdapter<Facility>(this, 
+				android.R.layout.simple_list_item_1, facilities);
 		
-		entities = (ListView)findViewById(R.id.entities);
-		entities.setAdapter(adapter);
+		ListView entities = (ListView)findViewById(R.id.entities);
 		entities.setOnItemClickListener(this);
+		entities.setAdapter(adapter);
+		
 		registerForContextMenu(entities);
 	}
 	
@@ -60,72 +60,76 @@ public class FacilitiesActivity extends Activity implements OnItemClickListener 
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();  
         Facility facility = (Facility) adapter.getItem(info.position);
+        Log.i("LOGS", "" + info.position);
         DaoFactory.getFacilityDao().remove(facility);
+        facilities.remove(info.position);
         
-		adapter = new ArrayListAdapter<Facility>(this, DaoFactory.getFacilityDao().getAll()) {
-			protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-		};
-		entities.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         
         return super.onContextItemSelected(item);
 	}
 
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 		final Facility facility = (Facility)adapter.getItem(position);
-		
-		final EditText facilityName = new EditText(this);
-		facilityName.setText(facility.getName());
-		
-		final Context context = this;
-		
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setTitle(R.string.edit_prompt);
-		dialog.setPositiveButton(R.string.ok_button, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		showDialog(R.string.edit_prompt, new OnClickListener() {
+			public void onClick(View v) {
 				facility.setName(facilityName.getText().toString());
 				DaoFactory.getFacilityDao().update(facility);
-				adapter = new ArrayListAdapter<Facility>(context, DaoFactory.getFacilityDao().getAll()) {
-					protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-				};
-				entities.setAdapter(adapter);
+				adapter.notifyDataSetChanged();
 			}
 		});
-		
-		dialog.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-		
-		dialog.setView(facilityName);
-		dialog.show();
 		
 	}
 	
 	public void add(View view) {
-		final EditText facilityName = new EditText(this);
-		final Context context = this;
+		showDialog(R.string.edit_prompt, new OnClickListener() {
+			public void onClick(View v) {
+				Facility facility = new Facility(facilityName.getText().toString());
+				DaoFactory.getFacilityDao().save(facility);
+				facilities.add(facility);
+				
+				adapter.notifyDataSetChanged();
+			}
+		});
+	}
+	
+	private void showDialog(int titleResourceId, final OnClickListener listener) {
+		facilityName = new EditText(this);
+		final AlertDialog dialog = new AlertDialog.Builder(this)
+				.setView(facilityName)
+				.setTitle(titleResourceId)
+				.setPositiveButton(R.string.ok_button, null)
+				.setNegativeButton(R.string.cancel_button, null)
+				.create();
 		
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setTitle(R.string.edit_prompt);
-		dialog.setPositiveButton(R.string.ok_button, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				DaoFactory.getFacilityDao().insert(facilityName.getText().toString());
-				adapter = new ArrayListAdapter<Facility>(context, DaoFactory.getFacilityDao().getAll()) {
-					protected static final int LAYOUT_ID = android.R.layout.simple_list_item_1;
-				};
-				entities.setAdapter(adapter);
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			private OnClickListener validationListener = new OnClickListener() {
+				public void onClick(View v) {
+					try {
+						validate();
+						listener.onClick(v);
+						dialog.dismiss();
+					} catch(Exception e) {
+						showErro(e.getMessage());
+					}
+				}
+			};
+			
+			public void onShow(DialogInterface d) {
+				Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+				button.setOnClickListener(validationListener);
 			}
 		});
 		
-		dialog.setNegativeButton(R.string.cancel_button, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-		
-		dialog.setView(facilityName);
 		dialog.show();
-		
+	}
+	
+	private void showErro(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+	}
+	
+	private void validate() throws Exception {
+		String name = facilityName.getText().toString();
+		if (name.isEmpty()) throw new Exception("Введите название");
 	}
 }
