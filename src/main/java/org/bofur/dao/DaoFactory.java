@@ -9,6 +9,7 @@ public class DaoFactory {
 	private static FacilityDao facilityDao;
 	private static DepartmentDao departmentDao;
 	private static SpecialityDao specialityDao;
+	private static StudentDao studentDao;
 	
 	public static void setDataBase(SQLiteDatabase dataBase) {
 		db = dataBase;
@@ -27,6 +28,11 @@ public class DaoFactory {
 	public static SpecialityDao getSpecialityDao() {
 		if (specialityDao != null) return specialityDao;
 		return specialityDao = new SpecialityDao(db);
+	}
+	
+	public static StudentDao getStudentDao() {
+		if (studentDao != null) return studentDao;
+		return studentDao = new StudentDao(db);
 	}
 	
 	private  DaoFactory() {}

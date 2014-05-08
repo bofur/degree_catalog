@@ -1,6 +1,6 @@
 package org.bofur.bean;
 
-public interface Indexed {
+public interface Bean {
 	long getId();
 	String getName();
 }

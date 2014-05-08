@@ -63,13 +63,13 @@ public class DepartmentDao {
 		return department;
 	}
 	
-	public Department insert(String name, Facility facility) {
+	public Department save(Department department) {
 		ContentValues values = new ContentValues();
-		values.put(TABLE_COLUMN_NAME, name);
-		values.put(TABLE_COLUMN_FACILITY_ID, facility.getId());
-		long id = db.insert(TABLE_NAME, null, values);
+		values.put(TABLE_COLUMN_NAME, department.getName());
+		values.put(TABLE_COLUMN_FACILITY_ID, department.getFacility().getId());
+		department.setId(db.insert(TABLE_NAME, null, values));
 		
-		return new Department(id, facility, name);
+		return department;
 	}
 	
 	public void update (Department department) {

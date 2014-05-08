@@ -3,7 +3,7 @@ package org.bofur.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Student implements Parcelable, Indexed {
+public class Student implements Parcelable, Bean {
 	private long id;
 	
 	private Speciality speciality;
@@ -12,6 +12,11 @@ public class Student implements Parcelable, Indexed {
 	private String secondName;
 	private String lastName;
 
+	public Student(String firstName, 
+			String secondName, String lastName, Speciality speciality) {
+		this(0, speciality, firstName, secondName, lastName);
+	}
+	
 	public Student(long id, Speciality speciality, 
 			String firstName, String secondName, String lastName) {
 		this.setId(id);

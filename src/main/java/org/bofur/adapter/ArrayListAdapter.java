@@ -3,7 +3,7 @@ package org.bofur.adapter;
 import java.util.ArrayList;
 
 import org.bofur.bean.Department;
-import org.bofur.bean.Indexed;
+import org.bofur.bean.Bean;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,16 +13,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class ArrayListAdapter<T extends Indexed> extends BaseAdapter {
+public class ArrayListAdapter<T extends Bean> extends BaseAdapter {
 //	protected static final int LAYOUT_ID = android.R.layout.select_dialog_item;
 	
-	protected ArrayList<? extends Indexed> objects;
+	protected ArrayList<? extends Bean> objects;
 	protected LayoutInflater lInflater;
 	protected int layoutId;
 	
 	private Context ctx;
 	
-	public ArrayListAdapter(Context context, int layoutId, ArrayList<? extends Indexed> objects) {
+	public ArrayListAdapter(Context context, int layoutId, ArrayList<? extends Bean> objects) {
 	    ctx = context;
 	    this.objects = objects;
 	    this.layoutId = layoutId;

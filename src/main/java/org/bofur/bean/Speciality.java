@@ -3,10 +3,14 @@ package org.bofur.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Speciality implements Parcelable, Indexed{
+public class Speciality implements Parcelable, Bean{
 	private long id;
 	private Department department;
 	private String name;
+	
+	public Speciality(String name, Department department) {
+		this(0, department, name);
+	}
 	
 	public Speciality(long id, Department department, String name) {
 		this.setId(id);

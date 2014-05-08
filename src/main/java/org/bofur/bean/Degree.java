@@ -3,7 +3,7 @@ package org.bofur.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Degree implements Parcelable, Indexed {
+public class Degree implements Parcelable, Bean {
 	private long id;
 	private String name;
 	private Student student;

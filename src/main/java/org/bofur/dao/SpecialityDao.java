@@ -38,6 +38,17 @@ public class SpecialityDao {
 		return result;
 	}
 	
+	public Speciality getById(long id) {
+		Cursor cursor = db.rawQuery("SELECT * FROM specialities WHERE id = " + id, null);
+		if (cursor.moveToFirst() == false) return null; 
+		
+		Speciality speciality = new Speciality(id, null, getName(cursor));
+		Department department = 
+				DaoFactory.getDepartmentDao().getById(getDepartmentId(cursor));
+		speciality.setDepartment(department);
+		return speciality;
+	}
+	
 	public ArrayList<Speciality> getByDepartment(Department department) {
 		String query = 
 				"  SELECT * "
@@ -55,13 +66,13 @@ public class SpecialityDao {
 		return result;
 	}
 	
-	public Speciality insert(String name, Department department) {
+	public Speciality save(Speciality speciality) {
 		ContentValues values = new ContentValues();
-		values.put(TABLE_COLUMN_NAME, name);
-		values.put(TABLE_COLUMN_DEPARTMENT_ID, department.getId());
-		long id = db.insert(TABLE_NAME, null, values);
+		values.put(TABLE_COLUMN_NAME, speciality.getName());
+		values.put(TABLE_COLUMN_DEPARTMENT_ID, speciality.getDepartment().getId());
+		speciality.setId(db.insert(TABLE_NAME, null, values));
 		
-		return new Speciality(id, department, name);
+		return speciality;
 	}
 	
 	public void update(Speciality speciality) {

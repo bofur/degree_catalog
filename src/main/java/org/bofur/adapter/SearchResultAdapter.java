@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.bofur.R;
 import org.bofur.bean.Degree;
-import org.bofur.bean.Indexed;
+import org.bofur.bean.Bean;
 import org.bofur.bean.Student;
 
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class SearchResultAdapter extends ArrayListAdapter<Degree> {
 	
-	public SearchResultAdapter(Context context, ArrayList<? extends Indexed> objects) {
+	public SearchResultAdapter(Context context, ArrayList<? extends Bean> objects) {
 		super(context, android.R.layout.select_dialog_item, objects);
 	}
 	

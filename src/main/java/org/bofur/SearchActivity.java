@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 import org.bofur.adapter.ArrayListAdapter;
 import org.bofur.bean.Department;
-import org.bofur.bean.Indexed;
+import org.bofur.bean.Bean;
 import org.bofur.bean.Speciality;
 import org.bofur.dao.DaoFactory;
 import org.bofur.dao.FacilityDao;
+import org.bofur.entities.DegreesActivity;
+import org.bofur.entities.DepartmentsActivity;
+import org.bofur.entities.FacilitiesActivity;
+import org.bofur.entities.SpecialitiesActivity;
+import org.bofur.entities.StudentsActivity;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.android.ContextHolder;
 
@@ -95,7 +100,7 @@ public class SearchActivity extends Activity {
     	showListDialog(R.string.select_speciality_prompt, specialities);
     }
     
-    private <T extends Indexed> void  showListDialog(int titleId,  ArrayList<T> items) {
+    private <T extends Bean> void  showListDialog(int titleId,  ArrayList<T> items) {
     	final ArrayListAdapter<T> adapter = 
     			new ArrayListAdapter<T>(this, android.R.layout.select_dialog_item, items);
     	

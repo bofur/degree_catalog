@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.bofur"
+<manifest package="org.bofur"
     android:versionCode="1"
-    android:versionName="1.0-SNAPSHOT" >
+    android:versionName="1.0-SNAPSHOT" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -23,11 +22,11 @@
         </activity>
         <activity android:label="Результат поиска" android:name="ResultActivity"></activity>
         <activity android:label="Диплом" android:name="DegreeActivity"></activity>
-        <activity android:label="Факультеты" android:name="FacilitiesActivity"></activity>
-        <activity android:label="Кафедры" android:name="DepartmentsActivity"></activity>
-        <activity android:label="Специальности" android:name="SpecialitiesActivity"></activity>
-        <activity android:label="Студенты" android:name="StudentsActivity"></activity>
-        <activity android:label="Работы" android:name="DegreesActivity"></activity>
+        <activity android:label="Факультеты" android:name=".entities.FacilitiesActivity"></activity>
+        <activity android:label="Кафедры" android:name=".entities.DepartmentsActivity"></activity>
+        <activity android:label="Специальности" android:name=".entities.SpecialitiesActivity"></activity>
+        <activity android:label="Студенты" android:name=".entities.StudentsActivity"></activity>
+        <activity android:label="Работы" android:name=".entities.DegreesActivity"></activity>
     </application>
 
 </manifest>

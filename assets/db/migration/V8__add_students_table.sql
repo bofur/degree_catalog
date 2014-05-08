@@ -1,0 +1,7 @@
+CREATE TABLE students(
+   id   INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+   speciality_id INTEGER REFERENCES specialities(id) ON DELETE CASCADE ON UPDATE CASCADE,
+   first_name TEXT NOT NULL,
+   second_name TEXT NOT NULL,
+   last_name TEXT NOT NULL
+);
