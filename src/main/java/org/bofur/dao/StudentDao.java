@@ -34,6 +34,23 @@ public class StudentDao {
 		return result;
 	}
 	
+	public Student getById(long id) {
+		Cursor cursor = db.rawQuery("SELECT * FROM students WHERE id = " + id, null);
+		if (cursor.moveToFirst() == false) return null; 
+		
+		Student stutend = new Student(
+				id, null, 
+				getName(cursor, TABLE_COLUMN_FIRST_NAME),
+				getName(cursor, TABLE_COLUMN_SECOND_NAME),
+				getName(cursor, TABLE_COLUMN_LAST_NAME));
+		
+		Speciality speciality = 
+				DaoFactory.getSpecialityDao().getById(getId(cursor, TABLE_COLUMN_SPECIALITY_ID));
+		
+		stutend.setSpeciality(speciality);
+		return stutend;
+	}
+	
 	public Student save(Student student) {
 		ContentValues values = new ContentValues();
 		values.put(TABLE_COLUMN_FIRST_NAME, student.getFirstName());

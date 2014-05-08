@@ -3,8 +3,8 @@ package org.bofur;
 import java.util.ArrayList;
 
 import org.bofur.adapter.ArrayListAdapter;
-import org.bofur.bean.Department;
 import org.bofur.bean.Bean;
+import org.bofur.bean.Department;
 import org.bofur.bean.Speciality;
 import org.bofur.dao.DaoFactory;
 import org.bofur.dao.FacilityDao;
@@ -13,6 +13,7 @@ import org.bofur.entities.DepartmentsActivity;
 import org.bofur.entities.FacilitiesActivity;
 import org.bofur.entities.SpecialitiesActivity;
 import org.bofur.entities.StudentsActivity;
+import org.bofur.search.QueryBuilder;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.android.ContextHolder;
 
@@ -80,7 +81,9 @@ public class SearchActivity extends Activity {
     }
     
     public void search(View view) {
-    	startActivity(new Intent(this, ResultActivity.class));
+    	Intent intent = new Intent(this, ResultActivity.class);
+    	intent.getExtras().putString("condition", new QueryBuilder(this).getQuery());
+    	startActivity(intent);
 	}
     
     public void selectFacility(View view) {
@@ -98,6 +101,10 @@ public class SearchActivity extends Activity {
     	ArrayList<Speciality> specialities = 
     			DaoFactory.getSpecialityDao().getByDepartment(moderator.getDepartment());
     	showListDialog(R.string.select_speciality_prompt, specialities);
+    }
+    
+    public SearchActivityModerator getModerator() {
+    	return moderator;
     }
     
     private <T extends Bean> void  showListDialog(int titleId,  ArrayList<T> items) {

@@ -9,6 +9,10 @@ public class Degree implements Parcelable, Bean {
 	private Student student;
 	private int year;
 	
+	public Degree(String name, Student student, int year) {
+		this(0, name, student, year);
+	}
+	
 	public Degree(long id, String name, Student student, int year) {
 		this.setId(id);
 		this.setName(name);

@@ -2,11 +2,9 @@ package org.bofur.adapter;
 
 import java.util.ArrayList;
 
-import org.bofur.bean.Department;
 import org.bofur.bean.Bean;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
