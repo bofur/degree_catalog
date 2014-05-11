@@ -17,7 +17,7 @@ public class EqualStatement implements Statement {
 	}
 	
 	public String generate() {
-		if (value.isEmpty()) return "";
+		if (value == null || value.isEmpty()) return "";
 		return field + " = " + value;
 	}
 }

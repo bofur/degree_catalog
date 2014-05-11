@@ -1,6 +1,7 @@
 package org.bofur.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bofur.bean.Degree;
 import org.bofur.bean.Student;
@@ -32,11 +33,15 @@ public class DegreeDao {
 		return result;
 	}
 	
+	public List<String> getYears() {
+		return new ArrayList<String>();
+	}
+	
 	public ArrayList<Degree> getByConditions(String condition) {
 		ArrayList<Degree> result = new ArrayList<Degree>();
 		if (condition == null || condition.isEmpty()) return getAll();
 		
-		Cursor cursor = db.rawQuery("SELECT * FROM degrees WHERE " + condition, null);
+		Cursor cursor = db.rawQuery(condition, null);
 		while (cursor.moveToNext()) 
 			result.add(createDegree(cursor));
 		return result;

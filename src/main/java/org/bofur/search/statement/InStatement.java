@@ -13,6 +13,6 @@ public class InStatement implements Statement{
 		String cond = value.generate();
 		if(cond.isEmpty()) return "";
 		
-		return field + " IN (" + value + ")";
+		return field + " IN (" + cond + ")";
 	}
 }

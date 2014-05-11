@@ -11,6 +11,6 @@ public class LikeStatement implements Statement {
 	
 	public String generate() {
 		if (value.isEmpty()) return "";
-		return field + "LIKE '%" + value + "%'";
+		return field + " LIKE '%" + value + "%'";
 	}
 }

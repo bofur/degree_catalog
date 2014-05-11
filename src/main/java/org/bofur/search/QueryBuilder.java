@@ -27,14 +27,33 @@ public class QueryBuilder {
 		conditions = new CompositStatement();
 		
 		addNameCond(getTextFromEdit(R.id.title_text));
-		addYearStatement(getTextFromEdit(R.id.year));
+		addYearStatement(activity.getModerator().getYear());
+		
 		addStudentCondition(getTextFromEdit(R.id.first_name_text), 
 				getTextFromEdit(R.id.second_name_text), getTextFromEdit(R.id.last_name_text));
-				
-		addSpecialityStatement(activity.getModerator().getSpeciality());
-		addDepartmentStatement(activity.getModerator().getDepartment());
-		addFacilityStatement(activity.getModerator().getFacility());
-
+		
+		
+		do {
+			Speciality speciality = activity.getModerator().getSpeciality();
+			if (speciality != null) {
+				addSpecialityStatement(speciality);
+				break;
+			}
+			
+			Department department = activity.getModerator().getDepartment();
+			if (department != null) {
+				addDepartmentStatement(department);
+				break;
+			}
+			
+			Facility facility = activity.getModerator().getFacility();
+			if (facility != null) {
+				addFacilityStatement(facility);
+			}
+			
+			break;
+		} while(true);
+		
     	return new SelectStatement("*", "degrees", conditions).generate();
 	}
 	

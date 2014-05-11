@@ -12,8 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class ArrayListAdapter<T extends Bean> extends BaseAdapter {
-//	protected static final int LAYOUT_ID = android.R.layout.select_dialog_item;
-	
 	protected ArrayList<? extends Bean> objects;
 	protected LayoutInflater lInflater;
 	protected int layoutId;

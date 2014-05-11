@@ -1,6 +1,8 @@
 package org.bofur;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.bofur.adapter.ArrayListAdapter;
 import org.bofur.bean.Bean;
@@ -28,6 +30,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 public class SearchActivity extends Activity {
@@ -48,7 +51,8 @@ public class SearchActivity extends Activity {
         moderator = new SearchActivityModerator(
         		(Button)findViewById(R.id.facility), 
         		(Button)findViewById(R.id.department), 
-        		(Button)findViewById(R.id.speciality));
+        		(Button)findViewById(R.id.speciality),
+        		(Button)findViewById(R.id.year));
     }
 
     @Override
@@ -82,7 +86,7 @@ public class SearchActivity extends Activity {
     
     public void search(View view) {
     	Intent intent = new Intent(this, ResultActivity.class);
-    	intent.getExtras().putString("condition", new QueryBuilder(this).getQuery());
+    	intent.putExtra("condition", new QueryBuilder(this).getQuery());
     	startActivity(intent);
 	}
     
@@ -101,6 +105,24 @@ public class SearchActivity extends Activity {
     	ArrayList<Speciality> specialities = 
     			DaoFactory.getSpecialityDao().getByDepartment(moderator.getDepartment());
     	showListDialog(R.string.select_speciality_prompt, specialities);
+    }
+    
+    public void selectYear(View view) {
+    	List<String> years = DaoFactory.getDegreeDao().getYears();
+    	String[] items = Arrays.copyOf(years.toArray(), years.toArray().length, String[].class);
+    	final ArrayAdapter<String> adapter = 
+    			new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, items);
+    	
+    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    	dialog.setAdapter(adapter, new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				moderator.set(adapter.getItem(which));
+			}
+		});
+    	dialog.setTitle(R.string.select_year_prompt);
+    	dialog.show();
+    	
+    	
     }
     
     public SearchActivityModerator getModerator() {

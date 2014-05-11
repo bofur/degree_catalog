@@ -30,6 +30,7 @@
     <string name="select_facility_prompt">Выберите факультет</string>
     <string name="select_department_prompt">Выберите кафедру</string>
     <string name="select_speciality_prompt">Выберите специальность</string>
+    <string name="select_year_prompt">Выберите год</string>
     <string name="edit_prompt">Редактировать</string>
     
     <string name="add_button">Добавить</string>
