@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bofur.adapter.ArrayListAdapter;
+import org.bofur.authorization.AuthorizationManager;
+import org.bofur.authorization.state.Unauthorized;
 import org.bofur.bean.Bean;
 import org.bofur.bean.Department;
 import org.bofur.bean.Speciality;
@@ -53,12 +55,27 @@ public class SearchActivity extends Activity {
         		(Button)findViewById(R.id.department), 
         		(Button)findViewById(R.id.speciality),
         		(Button)findViewById(R.id.year));
+        
     }
-
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+        AuthorizationManager.getInstance().showCreateUserDialog(this);;
+	}
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(org.bofur.R.menu.main, menu);
+    	int resouce = AuthorizationManager.getInstance().getOptionMenuResource();
+		getMenuInflater().inflate(resouce, menu);
 		return true;
+    }
+    
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	int resouce = AuthorizationManager.getInstance().getOptionMenuResource();
+		getMenuInflater().inflate(resouce, menu);
+    	return super.onPrepareOptionsMenu(menu);
     }
     
     @Override
@@ -79,6 +96,17 @@ public class SearchActivity extends Activity {
     	case R.id.degrees_settings:
     		startActivity(new Intent(this, DegreesActivity.class));
     		break;
+    	case R.id.login_settings:
+    		AuthorizationManager.getInstance().showAuthorizationDialog(this);;
+    		break;
+    	case R.id.change_password_settings:
+    		AuthorizationManager.getInstance().showSetupPasswordDialog(this);
+    		break;
+    	case R.id.exit_settings:
+    		AuthorizationManager.getInstance().changeState(new Unauthorized());
+    		break;
+		default:
+			throw new IllegalArgumentException();
     	}
     	
     	return super.onMenuItemSelected(featureId, item);

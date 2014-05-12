@@ -13,6 +13,7 @@
     
     <item android:id="@+id/students_settings" android:title="@string/students_settings"></item>
     <item android:id="@+id/degrees_settings" android:title="@string/degrees_settings"></item>
-    
+    <item android:id="@+id/change_password_settings" android:title="@string/change_password_settings"></item>
+    <item android:id="@+id/exit_settings" android:title="@string/exit_settings"></item>
 
 </menu>

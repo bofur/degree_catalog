@@ -13,20 +13,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchActivity" android:label="Поиск">
+        <activity android:name=".SearchActivity" android:label="Поиск" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="Результат поиска" android:name="ResultActivity"></activity>
-        <activity android:label="Диплом" android:name="DegreeActivity"></activity>
-        <activity android:label="Факультеты" android:name=".entities.FacilitiesActivity"></activity>
-        <activity android:label="Кафедры" android:name=".entities.DepartmentsActivity"></activity>
-        <activity android:label="Специальности" android:name=".entities.SpecialitiesActivity"></activity>
-        <activity android:label="Студенты" android:name=".entities.StudentsActivity"></activity>
-        <activity android:label="Работы" android:name=".entities.DegreesActivity"></activity>
+        <activity android:label="Результат поиска" android:name="ResultActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Диплом" android:name="DegreeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Факультеты" android:name=".entities.FacilitiesActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Кафедры" android:name=".entities.DepartmentsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Специальности" android:name=".entities.SpecialitiesActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Студенты" android:name=".entities.StudentsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:label="Работы" android:name=".entities.DegreesActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

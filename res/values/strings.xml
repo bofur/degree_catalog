@@ -8,6 +8,9 @@
     <string name="specialities_settings">Специальности</string>
     <string name="students_settings">Студенты</string>
     <string name="degrees_settings">Работы</string>
+    <string name="change_password_settings">Сменить пароль</string>
+    <string name="login_settings">Войти</string>
+    <string name="exit_settings">Выйти</string>
     
     <string name="degree_title_label">Название</string>
     <string name="first_name_label">Имя</string>
@@ -38,5 +41,15 @@
     
     <string name="ok_button">ОК</string>
     <string name="cancel_button">Отмена</string>
+    
+    <string name="create_user_title">Настройки авторизации</string>
+    <string name="change_password_title">Сменить пароль</string>
+    <string name="login_title">Войти</string>
+    
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="new_password_hint">Новый пароль</string>
+    <string name="old_password_hint">Старый пароль</string>
+    <string name="confirmation_hint">Подтверждение</string>
     
 </resources>
