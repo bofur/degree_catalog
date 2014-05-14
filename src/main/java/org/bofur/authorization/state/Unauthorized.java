@@ -1,5 +1,6 @@
 package org.bofur.authorization.state;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bofur.R;
 import org.bofur.authorization.AuthorizationManager;
@@ -21,6 +22,7 @@ public class Unauthorized extends State{
 	}
 
 	public void showAuthorizationDialog(final Context context) {
+		showDialog(context, R.string.login_title);
 	}
 
 	public int getOptionMenuResource() {
@@ -35,7 +37,7 @@ public class Unauthorized extends State{
 		if (login.isEmpty() || password.isEmpty())
 			throw new Exception("Не все поля заполнены");
 
-		password = DigestUtils.md5Hex(password);
+		password = new String(Hex.encodeHex(DigestUtils.md5(password)));
 		User user = new User(login, password);
 		if (DaoFactory.getUserDao().tryLogin(user) == false)
 			throw new Exception("Неверно введен логин или пароль");

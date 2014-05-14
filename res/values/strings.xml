@@ -17,8 +17,8 @@
     <string name="second_name_label">Отчество</string>
     <string name="last_name_label">Фамилия</string>
     
-    <string name="select_department">Факультет</string>
-    <string name="select_facility">Кафедра</string>
+    <string name="select_department">Кафедра</string>
+    <string name="select_facility">Факультет</string>
     <string name="select_speciality">Специальность</string>
     <string name="select_year">Год</string>
     

@@ -1,5 +1,6 @@
 package org.bofur.authorization.state;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bofur.R;
 import org.bofur.authorization.AuthorizationManager;
@@ -28,7 +29,7 @@ public class NoUser extends State {
 	}
 	
 	public int getOptionMenuResource() {
-		throw new IllegalStateException();
+		return R.menu.unauthorized_menu;
 	}
 	
 	@Override
@@ -61,7 +62,7 @@ public class NoUser extends State {
 	private User createUser() {
 		String login = ((EditText)dialogView.findViewById(R.id.login)).getText().toString();
 		String password = ((EditText)dialogView.findViewById(R.id.password)).getText().toString();
-		password = DigestUtils.md5Hex(password);
+		password = new String(Hex.encodeHex(DigestUtils.md5(password)));
 		
 		User user = new User(login, password);
 		DaoFactory.getUserDao().save(user);

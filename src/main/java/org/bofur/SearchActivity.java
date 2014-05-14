@@ -58,12 +58,6 @@ public class SearchActivity extends Activity {
         
     }
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-        AuthorizationManager.getInstance().showCreateUserDialog(this);;
-	}
-	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	int resouce = AuthorizationManager.getInstance().getOptionMenuResource();
@@ -73,6 +67,7 @@ public class SearchActivity extends Activity {
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+    	menu.clear();
     	int resouce = AuthorizationManager.getInstance().getOptionMenuResource();
 		getMenuInflater().inflate(resouce, menu);
     	return super.onPrepareOptionsMenu(menu);

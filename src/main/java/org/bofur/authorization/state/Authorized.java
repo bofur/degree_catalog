@@ -1,5 +1,6 @@
 package org.bofur.authorization.state;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bofur.R;
 import org.bofur.bean.User;
@@ -43,7 +44,7 @@ public class Authorized extends State {
 		if (oldPassword.equals(password))
 			throw new Exception("Старый и новый пароль совпадают");
 
-		if (user.getPassword().equals(DigestUtils.md5Hex(oldPassword)) == false) 
+		if (user.getPassword().equals(new String(Hex.encodeHex(DigestUtils.md5(oldPassword)))) == false) 
 			throw new Exception("Неверно введен старый пароль");
 		
 		if (password.equals(confirmation) == false)
@@ -56,7 +57,7 @@ public class Authorized extends State {
 	@Override
 	protected void onSuccess() {
 		String password = ((EditText)dialogView.findViewById(R.id.password)).getText().toString();
-		user.setPassword(DigestUtils.md5Hex(password));
+		user.setPassword(new String(Hex.encodeHex(DigestUtils.md5(password))));
 		DaoFactory.getUserDao().update(user);
 	}
 
