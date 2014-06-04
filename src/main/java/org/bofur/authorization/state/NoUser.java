@@ -9,6 +9,7 @@ import org.bofur.dao.DaoFactory;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.widget.EditText;
 
 public class NoUser extends State {
@@ -17,6 +18,7 @@ public class NoUser extends State {
 	}
 
 	public void showCreateUserDialog(final Context context) {
+		Log.i("LOGS", "showCreateUserDialog");
 		showDialog(context, R.string.create_user_title);
 	}
 
