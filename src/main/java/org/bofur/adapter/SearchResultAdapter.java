@@ -8,7 +8,6 @@ import org.bofur.bean.Bean;
 import org.bofur.bean.Student;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;

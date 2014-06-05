@@ -7,7 +7,6 @@ import org.bofur.bean.User;
 import org.bofur.dao.DaoFactory;
 
 import android.content.Context;
-import android.util.Log;
 
 public class AuthorizationManager {
 	private static AuthorizationManager instance;
@@ -41,7 +40,6 @@ public class AuthorizationManager {
 	
 	private AuthorizationManager() {
 		User user = DaoFactory.getUserDao().getUser(); 
-//		Log.i("LOGS", user.getName() + " " + user.getPassword() + " " + user.getId());
 		state = user != null ? new Unauthorized() : new NoUser();
 	}
 }
