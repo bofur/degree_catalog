@@ -34,7 +34,13 @@ public class DegreeDao {
 	}
 	
 	public List<String> getYears() {
-		return new ArrayList<String>();
+		Cursor cursor = db.query(TABLE_NAME, 
+				null, null, null, null, null, null);
+		ArrayList<String> result = new ArrayList<String>(); 
+		while (cursor.moveToNext()) 
+			result.add("" + getInt(cursor, TABLE_COLUMN_YEAR));
+		
+		return result;
 	}
 	
 	public ArrayList<Degree> getByConditions(String condition) {
